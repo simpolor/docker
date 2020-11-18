@@ -1,0 +1,20 @@
+MySQL Docker 이미지 다운로드
+> docker pull mysql:8.0.17
+
+Mysql Docker 실행
+docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password --name parksy-mysql -v /Users/parksy/datadir:/var/lib/mysql mysql:8.0.17 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+Mysql 서버 접속
+> mysql -u root -p
+
+유저 생성 및 권한 부여
+mysql> CREATE USER 'parksy'@'%' IDENTIFIED BY 'password';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'parksy'@'%';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> flush privileges;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> quit
