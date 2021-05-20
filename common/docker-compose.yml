@@ -1,0 +1,52 @@
+version: "3" # Compose.yml 파일 규격 버전
+services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의
+  docker-activemq: # 서비스 명
+    image: rmohr/activemq:5.15.9 # 사용할 이미지
+    container_name: docker-activemq # 컨테이너 이름 설정
+    ports:
+      - "61616:61616" # broker (admin:adminactivemq)(amq:amq)
+      - "8161:8161"   # web    http://boot2docker:8161/admin (admin:admin)
+    environment:
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: password
+    volumes:
+      - ~/docker/activemq:/data/activemq
+    restart: always # 도커시작시 자동시작할 지 옵션
+  docker-redis: # 서비스 명
+    image: redis:5.0.8 # 사용할 이미지
+    container_name: docker-redis # 컨테이너 이름 설정
+    ports:
+      - "6379:6379" # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+    command: redis-server --appendonly yes
+    volumes:
+      - ~/docker/redis:/data # -v 옵션 ( 디렉토리 마운트 설정 )
+    restart: always # 도커시작시 자동시작할 지 옵션
+  docker-elasticsearch: # 서비스 명
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2 # 사용할 이미지
+    container_name: docker-elasticsearch # 컨테이너 이름 설정
+    ports:
+      - "9200:9200" # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+      - cluster.name=docker-cluster
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ~/docker/mysql:/usr/share/elasticsearch/data # -v 옵션 ( 디렉토리 마운트 설정 )
+  docker-mysql: # 서비스 명
+    image: mysql:8.0.17 # 사용할 이미지
+    container_name: docker-mysql # 컨테이너 이름 설정
+    ports:
+      - "3306:3306" # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+    environment: # -e 옵션
+      #      MYSQL_DATABASE: "database"  # MYSQL 데이터베이스 이름 설정
+      MYSQL_ROOT_PASSWORD: "password"  # MYSQL 패스워드 설정 옵션
+    command: # 명령어 실행
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ~/docker/mysql:/var/lib/mysql # -v 옵션 ( 디렉토리 마운트 설정 )
+    restart: always # 도커시작시 자동시작할 지 옵션

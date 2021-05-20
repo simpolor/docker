@@ -1,14 +1,16 @@
 version: "3" # Compose.yml 파일 규격 버전
 services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의
-  mysql: # 서비스 명
+  docker-mysql: # 서비스 명
     image: mysql:8.0.17 # 사용할 이미지
-    container_name: demo-mysql # 컨테이너 이름 설정
+    container_name: docker-mysql # 컨테이너 이름 설정
     ports:
       - "3306:3306" # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
     environment: # -e 옵션
+#      MYSQL_DATABASE: "database"  # MYSQL 데이터베이스 이름 설정
       MYSQL_ROOT_PASSWORD: "password"  # MYSQL 패스워드 설정 옵션
     command: # 명령어 실행
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ../volumes/mysql:/var/lib/mysql # -v 옵션 ( 디렉토리 마운트 설정 )
+      - ~/docker/mysql:/var/lib/mysql # -v 옵션 ( 디렉토리 마운트 설정 )
+    restart: always # 도커시작시 자동시작할 지 옵션
