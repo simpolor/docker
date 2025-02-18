@@ -12,6 +12,7 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의
     volumes:
       - ~/docker/activemq:/data/activemq
     restart: always # 도커시작시 자동시작할 지 옵션
+
   docker-redis: # 서비스 명
     image: redis:5.0.8 # 사용할 이미지
     container_name: docker-redis # 컨테이너 이름 설정
@@ -21,6 +22,7 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의
     volumes:
       - ~/docker/redis:/data # -v 옵션 ( 디렉토리 마운트 설정 )
     restart: always # 도커시작시 자동시작할 지 옵션
+
   docker-elasticsearch: # 서비스 명
     image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2 # 사용할 이미지
     container_name: docker-elasticsearch # 컨테이너 이름 설정
@@ -36,6 +38,7 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의
         hard: -1
     volumes:
       - ~/docker/mysql:/usr/share/elasticsearch/data # -v 옵션 ( 디렉토리 마운트 설정 )
+      -
   docker-mysql: # 서비스 명
     image: mysql:8.0.17 # 사용할 이미지
     container_name: docker-mysql # 컨테이너 이름 설정
