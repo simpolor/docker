@@ -28,3 +28,7 @@
 > docker ps
 > docker ps -a
 ```
+
+# 컨테이너 간 통신 시 localhost로 접근
+# 만약 하지 않을 경우 IP 주소로 접근해야함
+> docker network create backend-network
