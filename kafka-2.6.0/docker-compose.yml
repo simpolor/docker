@@ -1,0 +1,27 @@
+version: '3'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper:3.4.6
+    container_name: zookeeper-3.4.6
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka:2.13-2.6.3
+    container_name: kafka-2.6.3
+    ports:
+      - "9092:9092"
+    environment:
+      # Zookeeper 주소 지정 (컨테이너 이름을 사용)
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      # 클라이언트가 접근할 때 사용할 Kafka 주소 (호스트 이름이나 IP에 맞게 조정)
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      # 로컬 테스트를 위한 설정 (replication factor를 1로 설정)
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+    depends_on:
+      - zookeeper
+    volumes:
+      - ~/docker/kafka-2.6.0:/kafka/kafka-logs # -v 옵션 ( 디렉토리 마운트 설정 )
+    restart: always # 도커시작시 자동시작할 지 옵션
