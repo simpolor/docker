@@ -1,11 +1,11 @@
 # ActiveMQ Docker 이미지 다운로드
 ```
-> docker pull rmohr/activemq:5.15.9
+> docker pull rabbitmq:3.13.7-management
 ```
 
 # ActiveMQ Docker 이미지 태그 생성
 ```
-> docker tag rmohr/activemq:5.15.9 activemq:5.15.9
+> docker tag rabbitmq:3.13.7-management rabbitmq:3.13.7
 ```
 
 # ActiveMQ Docker 실행
